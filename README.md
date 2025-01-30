@@ -54,12 +54,11 @@ This tool helps convert PDF documents into WCAG 2.0 compliant format. The proces
 
 ### Step 2: Process with Claude
 1. Ensure your images are in the `output_images` folder
-2. Check that `prompt.txt` contains your desired instructions for Claude
-3. In Git Bash, run:
+2. In Git Bash, run:
    ```
    python main.py claude
    ```
-4. The processed results will be saved in the same `output_images` folder
+3. The processed results will be saved in the same `output_images` folder
 
 ## Directory Structure
 - `output_images/`: Contains both converted PDF pages and Claude's processed results
