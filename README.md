@@ -1,8 +1,9 @@
 # PDF to WCAG 2.0 Conversion Tool
 
-This tool helps convert PDF documents into WCAG 2.0 compliant format. The process involves two main steps:
+This tool helps convert PDF documents into WCAG 2.0 compliant format. The process involves three main steps:
 1. Converting PDF pages to images
 2. Processing these images with Claude AI to create accessible content
+3. Extracting HTML content from Claude's responses
 
 ## Setup Instructions (Windows)
 
@@ -43,7 +44,25 @@ This tool helps convert PDF documents into WCAG 2.0 compliant format. The proces
 
 ## Using the Tool
 
-### Step 1: Convert PDF to Images
+### Automatic Processing
+The simplest way to use the tool is to:
+1. Create a `PDF` directory in the project folder
+2. Place your PDF files in the `PDF` directory
+3. In Git Bash, run:
+   ```
+   python main.py
+   ```
+This will automatically:
+- Process all PDFs in the `PDF` directory
+- Convert them to images
+- Process the images with Claude
+- Extract the HTML content
+
+### Manual Step-by-Step Processing
+
+If you prefer more control, you can run each step manually:
+
+#### Step 1: Convert PDF to Images
 1. Place your PDF file in the project folder
 2. In Git Bash, run:
    ```
@@ -52,7 +71,7 @@ This tool helps convert PDF documents into WCAG 2.0 compliant format. The proces
    Replace "YourPDFFile.pdf" with your actual PDF filename
 3. The converted images will be saved in the `output_images` folder
 
-### Step 2: Process with Claude
+#### Step 2: Process with Claude
 1. Ensure your images are in the `output_images` folder
 2. In Git Bash, run:
    ```
@@ -60,6 +79,16 @@ This tool helps convert PDF documents into WCAG 2.0 compliant format. The proces
    ```
 3. The processed results will be saved in the same `output_images` folder
 
+#### Step 3: Extract HTML
+1. After Claude has processed the images, run:
+   ```
+   python main.py html
+   ```
+2. This will create:
+   - Individual HTML files for each page (p1.html, p2.html, etc.)
+   - A combined.html file containing all pages with proper styling and page breaks
+
 ## Directory Structure
-- `output_images/`: Contains both converted PDF pages and Claude's processed results
+- `PDF/`: Place your PDF files here for automatic processing
+- `output_images/`: Contains converted PDF pages, Claude's processed results, and generated HTML files
 - `scripts/`: Contains setup and utility scripts

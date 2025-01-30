@@ -3,6 +3,7 @@ import sys
 import argparse
 from pdf_processor import convert_pdf_to_images
 from claude_processor import process_images_with_claude, get_input_images
+from extract_html import process_claude_responses
 
 def read_prompt(prompt_file="prompt.txt"):
     """Read prompt from file"""
@@ -26,6 +27,28 @@ def check_config():
         print("\nError: config.py not found")
         print("Please copy config.example.py to config.py and add your API key")
         return None
+
+def process_pdf_directory(pdf_dir="PDF", output_dir="output_images"):
+    """Process all PDFs in the specified directory"""
+    if not os.path.exists(pdf_dir):
+        print(f"\nError: '{pdf_dir}' directory not found")
+        print(f"Please create a '{pdf_dir}' directory and place your PDF files in it")
+        return False
+    
+    pdfs = [f for f in os.listdir(pdf_dir) if f.lower().endswith('.pdf')]
+    if not pdfs:
+        print(f"\nNo PDF files found in '{pdf_dir}' directory")
+        return False
+    
+    for pdf in pdfs:
+        pdf_path = os.path.join(pdf_dir, pdf)
+        print(f"\nProcessing {pdf}...")
+        images_data = convert_pdf_to_images(pdf_path, output_dir)
+        if not images_data:
+            print(f"Failed to process {pdf}")
+            continue
+        print(f"PDF pages have been converted to images in '{output_dir}' directory")
+    return True
 
 def handle_pdf(args):
     """Handle PDF conversion command"""
@@ -61,6 +84,13 @@ def handle_claude(args):
     print("\nProcessing images with Claude...")
     process_images_with_claude(images_data, prompt, api_key, args.output_dir)
 
+def handle_html(args):
+    """Handle HTML extraction command"""
+    print("\nExtracting HTML from Claude responses...")
+    if not process_claude_responses():
+        print("Failed to extract HTML from Claude responses.")
+        sys.exit(1)
+
 def main():
     parser = argparse.ArgumentParser(description='PDF and Image Processing Tool')
     subparsers = parser.add_subparsers(dest='command', help='Commands')
@@ -77,12 +107,42 @@ def main():
     claude_parser.add_argument('--output-dir', default='output_images',
                              help='Output directory for images and Claude responses (default: output_images)')
     
+    # HTML command
+    html_parser = subparsers.add_parser('html',
+                                      help='Extract HTML from Claude responses')
+    
     args = parser.parse_args()
     
-    if args.command == 'pdf':
+    # If no command provided, process PDFs from PDF directory
+    if not args.command:
+        if process_pdf_directory():
+            # If PDFs were processed successfully, continue with Claude processing
+            api_key = check_config()
+            if not api_key:
+                sys.exit(1)
+            
+            prompt = read_prompt()
+            if not prompt:
+                print("Error: No prompt found in prompt.txt")
+                sys.exit(1)
+            
+            images_data = get_input_images("output_images")
+            if images_data:
+                print("\nProcessing images with Claude...")
+                process_images_with_claude(images_data, prompt, api_key, "output_images")
+                print("\nExtracting HTML from Claude responses...")
+                if not process_claude_responses():
+                    print("Failed to extract HTML from Claude responses.")
+                    sys.exit(1)
+            else:
+                print("No valid images found in output_images directory. Exiting.")
+                sys.exit(1)
+    elif args.command == 'pdf':
         handle_pdf(args)
     elif args.command == 'claude':
         handle_claude(args)
+    elif args.command == 'html':
+        handle_html(args)
     else:
         parser.print_help()
         print("\nNote: To use Claude integration:")
