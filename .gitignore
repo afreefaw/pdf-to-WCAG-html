@@ -10,3 +10,6 @@ config.py
 
 # Output directories
 output_images/
+
+#other
+*.pdf

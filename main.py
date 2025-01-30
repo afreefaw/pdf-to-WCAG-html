@@ -51,10 +51,10 @@ def handle_claude(args):
         print("Error: No prompt found in prompt.txt")
         sys.exit(1)
     
-    # Get images from input directory
-    images_data = get_input_images()
+    # Get images from output directory
+    images_data = get_input_images(args.output_dir)
     if not images_data:
-        print("No valid images found in input_images directory. Exiting.")
+        print(f"No valid images found in {args.output_dir} directory. Exiting.")
         sys.exit(1)
     
     # Process with Claude
@@ -73,9 +73,9 @@ def main():
     
     # Claude command
     claude_parser = subparsers.add_parser('claude', 
-                                        help='Process images from input_images directory with Claude')
+                                        help='Process images from output_images directory with Claude')
     claude_parser.add_argument('--output-dir', default='output_images',
-                             help='Output directory for Claude responses (default: output_images)')
+                             help='Output directory for images and Claude responses (default: output_images)')
     
     args = parser.parse_args()
     
@@ -89,7 +89,7 @@ def main():
         print("1. Copy config.example.py to config.py")
         print("2. Add your Anthropic API key to config.py")
         print("3. Modify prompt.txt with your desired prompt")
-        print("4. Place images in the input_images directory")
+        print("4. Ensure your images are in the output_images directory")
         sys.exit(1)
 
 if __name__ == "__main__":

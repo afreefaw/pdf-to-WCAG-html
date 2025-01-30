@@ -12,18 +12,18 @@ def encode_image_to_base64(image: Image.Image) -> str:
     image.save(buffered, format="PNG")
     return base64.b64encode(buffered.getvalue()).decode('utf-8')
 
-def get_input_images(input_dir="input_images"):
+def get_input_images(input_dir="output_images"):
     """
-    Get all images from input directory
+    Get all images from specified directory
     
     Args:
-        input_dir (str): Directory containing input images
+        input_dir (str): Directory containing images to process
         
     Returns:
         list: List of tuples (index, image_path, PIL.Image)
     """
     if not os.path.exists(input_dir):
-        print(f"Error: Input directory '{input_dir}' not found.")
+        print(f"Error: Directory '{input_dir}' not found.")
         return []
         
     images_data = []
@@ -49,7 +49,7 @@ def get_input_images(input_dir="input_images"):
         return images_data
         
     except Exception as e:
-        print(f"Error reading input directory: {str(e)}")
+        print(f"Error reading directory: {str(e)}")
         return []
 
 def process_images_with_claude(images_data, prompt, api_key, output_dir="output_images"):
