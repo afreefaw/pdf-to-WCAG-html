@@ -1,0 +1,114 @@
+Please review the following image and consider how it can be converted to semantic HTML, focusing on accessibility, and proper tables and heading structure. Include appropriate ARIA attributes where necessary and ensure the content follows a logical reading order. If there are images, do not recreate them; simply state what the image shows (i.e., do not simply transcribe text or numbers in it, describe the whole thing in one go coherently).
+
+For each table you encounter, first describe in detail your plan for reconstructing it in HTML, including how the table structure might need to be adjusted in order to make it easy to read with a screen reader. Ensure that all tables explicitly use id and headers attributes to link table headers and data cells, especially when the table has multiple rows or columns of headers. This will ensure compliance with WCAG 2.1 Success Criteria 1.3.1 (Info and Relationships). Do not add any links. Please pay special attention to ensuring id and headers attributes are added to table cells so they identify the cells that relate to the headers, and to avoiding the scope error at the bottom of this message.
+
+Then, please output the HTML.
+
+Here is an example of a good result:
+
+<main>
+  <h1>OMPF 2025 Northern and Rural MFCI Workbook</h1>
+  
+  <div class="municipality-info">
+    <h2>Town of Atikokan</h2>
+    <p>Single Tier</p>
+    <p class="code">5901</p>
+  </div>
+
+  <section class="appendix">
+    <h2>Appendix</h2>
+    <h3>Table 4 - Data Sources</h3>
+
+    <!-- Primary Indicators Table -->
+    <table aria-label="Primary Indicators for Town of Atikokan">
+      <caption>Primary Indicators</caption>
+      <thead>
+        <tr>
+          <th id="pri-indicator" scope="col">Indicator</th>
+          <th id="pri-value" scope="col">Value</th>
+          <th id="pri-source" scope="col">Source</th>
+        </tr>
+      </thead>
+      <tbody>
+        <tr>
+          <th id="pri-1" scope="row">1. Weighted Assessment per Household</th>
+          <td headers="pri-value pri-1">$170,962</td>
+          <td headers="pri-source pri-1">Municipal Property Assessment Corporation (MPAC) and municipal tax rate bylaws</td>
+        </tr>
+        <tr>
+          <th id="pri-2" scope="row">2. Median Household Income</th>
+          <td headers="pri-value pri-2">$69,000</td>
+          <td headers="pri-source pri-2">Statistics Canada</td>
+        </tr>
+      </tbody>
+    </table>
+
+    <!-- Secondary Indicators Table -->
+    <table aria-label="Secondary Indicators for Town of Atikokan">
+      <caption>Secondary Indicators</caption>
+      <thead>
+        <tr>
+          <th id="sec-indicator" scope="col">Indicator</th>
+          <th id="sec-value" scope="col">Value</th>
+          <th id="sec-source" scope="col">Source</th>
+        </tr>
+      </thead>
+      <tbody>
+        <tr>
+          <th id="sec-1" scope="row">3. Average Annual Change in Assessment (New Construction)</th>
+          <td headers="sec-value sec-1">0.3%</td>
+          <td headers="sec-source sec-1">Online Property Tax Analysis (OPTA) system</td>
+        </tr>
+        <tr>
+          <th id="sec-2" scope="row">4. Employment Rate</th>
+          <td headers="sec-value sec-2">46.0%</td>
+          <td headers="sec-source sec-2">Statistics Canada</td>
+        </tr>
+        <tr>
+          <th id="sec-3" scope="row">5. Ratio of Working Age to Dependent Population</th>
+          <td headers="sec-value sec-3">150.0%</td>
+          <td headers="sec-source sec-3">Statistics Canada</td>
+        </tr>
+        <tr>
+          <th id="sec-4" scope="row">6. Per Cent of Population Above Low-Income Threshold</th>
+          <td headers="sec-value sec-4">83.8%</td>
+          <td headers="sec-source sec-4">Statistics Canada</td>
+        </tr>
+      </tbody>
+    </table>
+
+    <section class="notes">
+      <h3>Notes and Data Sources</h3>
+      <p>For further information on MFCI data elements, see the 2025 OMPF Technical Guide.</p>
+    </section>
+  </section>
+</main>
+
+Please note how this html has fixed the following problem (which was previously an issue):
+
+1.3 Adaptable: Create content that can be presented in different ways (for example simpler layout) without losing information or structure.
+
+Success Criteria 1.3.1 Info and Relationships (A)
+
+Check 245: Data table with more than one row/column of headers does not use id and headers attributes to identify cells.
+Repair: Add id and headers attributes to table cells so they identify the cells that relate to the headers.
+Error Line 15, Column 5:
+<table aria-label="Primary Indicators for Town of Atikokan">
+      <caption>Primary Indicators</cap ...
+
+Error Line 39, Column 5:
+<table aria-label="Secondary Indicators for Town of Atikokan">
+      <caption>Secondary Indicators< ...
+
+
+Please also ensure you avoid this issue:
+Success Criteria 1.3.1 Info and Relationships (A)
+
+Check 244: Data table with both row and column headers does not use scope to identify cells.
+Repair: Add scope attributes to header cells so they identify the cells that relate to the header.
+Error Line 13, Column 5:
+<table aria-label="Table 2a - Weighted Assessment per Household">
+      <caption>Table 2a - Weighte ...
+
+
+DO NOT MESS UP CHECKS 245 AND 244!!!
