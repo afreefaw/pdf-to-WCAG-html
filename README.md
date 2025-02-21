@@ -5,7 +5,7 @@ This tool helps convert PDF documents into a stripped down HTML that is WCAG 2.0
 
 The process involves three main steps:
 1. Converting PDF pages to images
-2. Processing these images with Claude AI to create accessible content
+2. Sending these images to the Anthropic API (Claude) and requesting, with a custom prompt, html output
 3. Extracting HTML content from Claude's responses
 
 ## Setup Instructions (Windows)
