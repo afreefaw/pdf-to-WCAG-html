@@ -1,6 +1,9 @@
 # PDF to WCAG 2.0 Conversion Tool
 
-This tool helps convert PDF documents into WCAG 2.0 compliant format. The process involves three main steps:
+This tool helps convert PDF documents into a stripped down HTML that is WCAG 2.0 compliant. The goal is to be able to quickly convert PDFs that do not play well with screen readers into something baseline screen-readable. In my testing this works quite well for most PDFs that are mainly text and tables (i.e., are just not well structured at the underlying PDF level).
+
+
+The process involves three main steps:
 1. Converting PDF pages to images
 2. Processing these images with Claude AI to create accessible content
 3. Extracting HTML content from Claude's responses
